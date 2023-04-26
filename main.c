@@ -6,7 +6,7 @@
  * @data_sh: data structure
  * Return: no return
  */
-void free_data(data_shell *data_sh)
+void free_data(dt_shell *data_sh)
 {
 	unsigned int i;
 
@@ -23,14 +23,14 @@ void free_data(data_shell *data_sh)
  * set_data - Initialize data structure
  *
  * @data_sh: data structure
- * @av: argument vector
+ * @arg_vector: argument vector
  * Return: no return
  */
-void set_data(data_shell *data_sh, char **av)
+void set_data(dt_shell *data_sh, char **arg_vector)
 {
 	unsigned int i;
 
-	data_sh->av = av;
+	data_sh->arg_vector = arg_vector;
 	data_sh->input = NULL;
 	data_sh->args = NULL;
 	data_sh->status = 0;
@@ -54,17 +54,17 @@ void set_data(data_shell *data_sh, char **av)
  * main - Entry point
  *
  * @ac: argument count
- * @av: argument vector
+ * @arg_vector: argument vector
  *
  * Return: 0 on success.
  */
-int main(int ac, char **av)
+int main(int ac, char **arg_vector)
 {
-	data_shell data_sh;
+	dt_shell data_sh;
 	(void) ac;
 
-	signal(SIGINT, get_sigint);
-	set_data(&data_sh, av);
+	signal(SIGINT, get_signalint);
+	set_data(&data_sh, arg_vector);
 	shell_loop(&data_sh);
 	free_data(&data_sh);
 	if (data_sh.status < 0)
