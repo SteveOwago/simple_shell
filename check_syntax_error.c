@@ -101,7 +101,7 @@ int first_char(char *input, int *i)
  * @bool: to control msg error
  * Return: no return
  */
-void print_syntax_error(dt_shell *data_sh, char *input, int i, int bool)
+void print_syntax_error(data_shell *data_sh, char *input, int i, int bool)
 {
 	char *msg, *msg2, *msg3, *error, *counter;
 	int length;
@@ -123,7 +123,7 @@ void print_syntax_error(dt_shell *data_sh, char *input, int i, int bool)
 	msg2 = ": Syntax error: \"";
 	msg3 = "\" unexpected\n";
 	counter = aux_itoa(data_sh->counter);
-	length = _strlen(data_sh->arg_vector[0]) + _strlen(counter);
+	length = _strlen(data_sh->av[0]) + _strlen(counter);
 	length += _strlen(msg) + _strlen(msg2) + _strlen(msg3) + 2;
 
 	error = malloc(sizeof(char) * (length + 1));
@@ -132,7 +132,7 @@ void print_syntax_error(dt_shell *data_sh, char *input, int i, int bool)
 		free(counter);
 		return;
 	}
-	_strcpy(error, data_sh->arg_vector[0]);
+	_strcpy(error, data_sh->av[0]);
 	_strcat(error, ": ");
 	_strcat(error, counter);
 	_strcat(error, msg2);
@@ -153,7 +153,7 @@ void print_syntax_error(dt_shell *data_sh, char *input, int i, int bool)
  * @input: input string
  * Return: 1 if there is an error. 0 in other case
  */
-int check_syntax_error(dt_shell *data_sh, char *input)
+int check_syntax_error(data_shell *data_sh, char *input)
 {
 	int begin = 0;
 	int f_char = 0;

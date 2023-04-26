@@ -1,12 +1,12 @@
 #include "main.h"
 
 /**
- * shell_exit - shell quit handler
+ * exit_shell - exits the shell
  *
  * @data_sh: data relevant (status and args)
  * Return: 0 on success.
  */
-int shell_exit(dt_shell *data_sh)
+int exit_shell(data_shell *data_sh)
 {
 	unsigned int ustatus;
 	int is_digit;

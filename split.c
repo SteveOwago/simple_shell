@@ -47,11 +47,11 @@ char *swap_char(char *input, int bool)
  * add_nodes - add separators and command lines in the lists
  *
  * @heads: head of separator list
- * @head_list: head of command lines list
+ * @headl: head of command lines list
  * @input: input string
  * Return: no return
  */
-void add_nodes(separator_list **heads, line_list **head_list, char *input)
+void add_nodes(sep_list **heads, line_list **headl, char *input)
 {
 	int i;
 	char *line;
@@ -73,7 +73,7 @@ void add_nodes(separator_list **heads, line_list **head_list, char *input)
 	line = _strtok(input, ";|&");
 	do {
 		line = swap_char(line, 1);
-		add_line_node_end(head_list, line);
+		add_line_node_end(headl, line);
 		line = _strtok(NULL, ";|&");
 	} while (line != NULL);
 
@@ -87,10 +87,10 @@ void add_nodes(separator_list **heads, line_list **head_list, char *input)
  * @data_sh: data structure
  * Return: no return
  */
-void go_next(separator_list **list_s, line_list **list_l, data_shell *data_sh)
+void go_next(sep_list **list_s, line_list **list_l, data_shell *data_sh)
 {
 	int loop_sep;
-	separator_list *ls_s;
+	sep_list *ls_s;
 	line_list *ls_l;
 
 	loop_sep = 1;
@@ -132,17 +132,17 @@ void go_next(separator_list **list_s, line_list **list_l, data_shell *data_sh)
 int split_commands(data_shell *data_sh, char *input)
 {
 
-	separator_list *heads, *list_s;
-	line_list *head_list, *list_l;
+	sep_list *heads, *list_s;
+	line_list *headl, *list_l;
 	int loop;
 
 	heads = NULL;
-	head_list = NULL;
+	headl = NULL;
 
-	add_nodes(&heads, &head_list, input);
+	add_nodes(&heads, &headl, input);
 
 	list_s = heads;
-	list_l = head_list;
+	list_l = headl;
 
 	while (list_l != NULL)
 	{
@@ -160,8 +160,8 @@ int split_commands(data_shell *data_sh, char *input)
 			list_l = list_l->next;
 	}
 
-	free_separator_list(&heads);
-	free_line_list(&head_list);
+	free_sep_list(&heads);
+	free_line_list(&headl);
 
 	if (loop == 0)
 		return (0);

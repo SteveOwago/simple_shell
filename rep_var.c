@@ -8,7 +8,7 @@
  * @data: data structure
  * Return: no return
  */
-void check_env(r_var **h, char *in, dt_shell *data)
+void check_env(r_var **h, char *in, data_shell *data)
 {
 	int row, chr, j, lval;
 	char **_envr;
@@ -42,7 +42,7 @@ void check_env(r_var **h, char *in, dt_shell *data)
 }
 
 /**
- * check_variables - check if the typed variable is $$ or $?
+ * check_vars - check if the typed variable is $$ or $?
  *
  * @h: head of the linked list
  * @in: input string
@@ -50,7 +50,7 @@ void check_env(r_var **h, char *in, dt_shell *data)
  * @data: data structure
  * Return: no return
  */
-int check_variables(r_var **h, char *in, char *st, dt_shell *data)
+int check_vars(r_var **h, char *in, char *st, data_shell *data)
 {
 	int i, lst, lpd;
 
@@ -142,7 +142,7 @@ char *replaced_input(r_var **head, char *input, char *new_input, int nlen)
  * @datash: data structure
  * Return: replaced string
  */
-char *rep_var(char *input, dt_shell *datash)
+char *rep_var(char *input, data_shell *datash)
 {
 	r_var *head, *indx;
 	char *status, *new_input;
@@ -151,7 +151,7 @@ char *rep_var(char *input, dt_shell *datash)
 	status = aux_itoa(datash->status);
 	head = NULL;
 
-	olen = check_variables(&head, input, status, datash);
+	olen = check_vars(&head, input, status, datash);
 
 	if (head == NULL)
 	{
@@ -177,7 +177,7 @@ char *rep_var(char *input, dt_shell *datash)
 
 	free(input);
 	free(status);
-	r_var_free_list(&head);
+	free_rvar_list(&head);
 
 	return (new_input);
 }

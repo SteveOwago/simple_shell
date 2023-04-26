@@ -3,14 +3,14 @@
 /**
  * get_error - calls the error according the builtin, syntax or permission
  * @data_sh: data structure that contains arguments
- * @error_value: error value
+ * @errorval: error value
  * Return: error
  */
-int get_error(dt_shell *data_sh, int error_value)
+int get_error(data_shell *data_sh, int errorval)
 {
 	char *error;
 
-	switch (error_value)
+	switch (errorval)
 	{
 	case -1:
 		error = error_env(data_sh);
@@ -23,7 +23,7 @@ int get_error(dt_shell *data_sh, int error_value)
 		break;
 	case 2:
 		if (_strcmp("exit", data_sh->args[0]) == 0)
-			error = error_shell_exit(data_sh);
+			error = error_exit_shell(data_sh);
 		else if (_strcmp("cd", data_sh->args[0]) == 0)
 			error = error_get_cd(data_sh);
 		break;
@@ -35,6 +35,6 @@ int get_error(dt_shell *data_sh, int error_value)
 		free(error);
 	}
 
-	data_sh->status = error_value;
-	return (error_value);
+	data_sh->status = errorval;
+	return (errorval);
 }

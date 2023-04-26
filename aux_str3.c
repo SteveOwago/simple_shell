@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * string_reverse - reverses a string.
+ * rev_string - reverses a string.
  * @s: input string.
  * Return: no return.
  */
-void string_reverse(char *s)
+void rev_string(char *s)
 {
 	int count = 0, i, j;
 	char *str, temp;

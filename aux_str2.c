@@ -34,21 +34,21 @@ int _strlen(const char *s)
 }
 
 /**
- * compare_charss - compare chars of strings
+ * cmp_chars - compare chars of strings
  * @str: input string.
- * @delimit: delimiter.
+ * @delim: delimiter.
  *
  * Return: 1 if are equals, 0 if not.
  */
-int compare_charss(char str[], const char *delimit)
+int cmp_chars(char str[], const char *delim)
 {
 	unsigned int i, j, k;
 
 	for (i = 0, k = 0; str[i]; i++)
 	{
-		for (j = 0; delimit[j]; j++)
+		for (j = 0; delim[j]; j++)
 		{
-			if (str[i] == delimit[j])
+			if (str[i] == delim[j])
 			{
 				k++;
 				break;
@@ -63,11 +63,11 @@ int compare_charss(char str[], const char *delimit)
 /**
  * _strtok - splits a string by some delimiter.
  * @str: input string.
- * @delimit: delimiter.
+ * @delim: delimiter.
  *
  * Return: string splited.
  */
-char *_strtok(char str[], const char *delimit)
+char *_strtok(char str[], const char *delim)
 {
 	static char *splitted, *str_end;
 	char *str_start;
@@ -75,7 +75,7 @@ char *_strtok(char str[], const char *delimit)
 
 	if (str != NULL)
 	{
-		if (compare_charss(str, delimit))
+		if (cmp_chars(str, delim))
 			return (NULL);
 		splitted = str; /*Store first address*/
 		i = _strlen(str);
@@ -91,10 +91,10 @@ char *_strtok(char str[], const char *delimit)
 		if (splitted != str_start)
 			if (*splitted && *(splitted - 1) == '\0')
 				break;
-		/*Replacing delimititer for null char*/
-		for (i = 0; delimit[i]; i++)
+		/*Replacing delimiter for null char*/
+		for (i = 0; delim[i]; i++)
 		{
-			if (*splitted == delimit[i])
+			if (*splitted == delim[i])
 			{
 				*splitted = '\0';
 				if (splitted == str_start)
@@ -102,10 +102,10 @@ char *_strtok(char str[], const char *delimit)
 				break;
 			}
 		}
-		if (bool == 0 && *splitted) /*Str != delimit*/
+		if (bool == 0 && *splitted) /*Str != Delim*/
 			bool = 1;
 	}
-	if (bool == 0) /*Str == delimit*/
+	if (bool == 0) /*Str == Delim*/
 		return (NULL);
 	return (str_start);
 }

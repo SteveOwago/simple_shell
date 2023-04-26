@@ -7,7 +7,7 @@
  *
  * Return: no return
  */
-void cd_dot(dt_shell *data_sh)
+void cd_dot(data_shell *data_sh)
 {
 	char pwd[PATH_MAX];
 	char *dir, *cp_pwd, *cp_strtok_pwd;
@@ -28,14 +28,14 @@ void cd_dot(dt_shell *data_sh)
 		return;
 	}
 	cp_strtok_pwd = cp_pwd;
-	string_reverse(cp_strtok_pwd);
+	rev_string(cp_strtok_pwd);
 	cp_strtok_pwd = _strtok(cp_strtok_pwd, "/");
 	if (cp_strtok_pwd != NULL)
 	{
 		cp_strtok_pwd = _strtok(NULL, "\0");
 
 		if (cp_strtok_pwd != NULL)
-			string_reverse(cp_strtok_pwd);
+			rev_string(cp_strtok_pwd);
 	}
 	if (cp_strtok_pwd != NULL)
 	{
@@ -58,7 +58,7 @@ void cd_dot(dt_shell *data_sh)
  * @data_sh: data relevant (directories)
  * Return: no return
  */
-void cd_to(dt_shell *data_sh)
+void cd_to(data_shell *data_sh)
 {
 	char pwd[PATH_MAX];
 	char *dir, *cp_pwd, *cp_dir;
@@ -92,7 +92,7 @@ void cd_to(dt_shell *data_sh)
  * @data_sh: data relevant (environment)
  * Return: no return
  */
-void cd_previous(dt_shell *data_sh)
+void cd_previous(data_shell *data_sh)
 {
 	char pwd[PATH_MAX];
 	char *p_pwd, *p_oldpwd, *cp_pwd, *cp_oldpwd;
@@ -134,7 +134,7 @@ void cd_previous(dt_shell *data_sh)
  * @data_sh: data relevant (environment)
  * Return: no return
  */
-void cd_to_home(dt_shell *data_sh)
+void cd_to_home(data_shell *data_sh)
 {
 	char *p_pwd, *home;
 	char pwd[PATH_MAX];

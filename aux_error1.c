@@ -6,16 +6,16 @@
  * @data_sh: data relevant (directory)
  * @msg: message to print
  * @error: output message
- * @str_ver_counter: counter lines
+ * @ver_str: counter lines
  * Return: error message
  */
-char *strcat_cd(dt_shell *data_sh, char *msg, char *error, char *str_ver_counter)
+char *strcat_cd(data_shell *data_sh, char *msg, char *error, char *ver_str)
 {
 	char *illegal_flag;
 
-	_strcpy(error, data_sh->arg_vector[0]);
+	_strcpy(error, data_sh->av[0]);
 	_strcat(error, ": ");
-	_strcat(error, str_ver_counter);
+	_strcat(error, ver_str);
 	_strcat(error, ": ");
 	_strcat(error, data_sh->args[0]);
 	_strcat(error, msg);
@@ -43,12 +43,12 @@ char *strcat_cd(dt_shell *data_sh, char *msg, char *error, char *str_ver_counter
  * @data_sh: data relevant (directory)
  * Return: Error message
  */
-char *error_get_cd(dt_shell *data_sh)
+char *error_get_cd(data_shell *data_sh)
 {
 	int length, len_id;
-	char *error, *str_ver_counter, *msg;
+	char *error, *ver_str, *msg;
 
-	str_ver_counter = aux_itoa(data_sh->counter);
+	ver_str = aux_itoa(data_sh->counter);
 	if (data_sh->args[1][0] == '-')
 	{
 		msg = ": Illegal option ";
@@ -60,19 +60,19 @@ char *error_get_cd(dt_shell *data_sh)
 		len_id = _strlen(data_sh->args[1]);
 	}
 
-	length = _strlen(data_sh->arg_vector[0]) + _strlen(data_sh->args[0]);
-	length += _strlen(str_ver_counter) + _strlen(msg) + len_id + 5;
+	length = _strlen(data_sh->av[0]) + _strlen(data_sh->args[0]);
+	length += _strlen(ver_str) + _strlen(msg) + len_id + 5;
 	error = malloc(sizeof(char) * (length + 1));
 
 	if (error == 0)
 	{
-		free(str_ver_counter);
+		free(ver_str);
 		return (NULL);
 	}
 
-	error = strcat_cd(data_sh, msg, error, str_ver_counter);
+	error = strcat_cd(data_sh, msg, error, ver_str);
 
-	free(str_ver_counter);
+	free(ver_str);
 
 	return (error);
 }
@@ -82,30 +82,30 @@ char *error_get_cd(dt_shell *data_sh)
  * @data_sh: data relevant (counter, arguments)
  * Return: Error message
  */
-char *error_not_found(dt_shell *data_sh)
+char *error_not_found(data_shell *data_sh)
 {
 	int length;
 	char *error;
-	char *str_ver_counter;
+	char *ver_str;
 
-	str_ver_counter = aux_itoa(data_sh->counter);
-	length = _strlen(data_sh->arg_vector[0]) + _strlen(str_ver_counter);
+	ver_str = aux_itoa(data_sh->counter);
+	length = _strlen(data_sh->av[0]) + _strlen(ver_str);
 	length += _strlen(data_sh->args[0]) + 16;
 	error = malloc(sizeof(char) * (length + 1));
 	if (error == 0)
 	{
 		free(error);
-		free(str_ver_counter);
+		free(ver_str);
 		return (NULL);
 	}
-	_strcpy(error, data_sh->arg_vector[0]);
+	_strcpy(error, data_sh->av[0]);
 	_strcat(error, ": ");
-	_strcat(error, str_ver_counter);
+	_strcat(error, ver_str);
 	_strcat(error, ": ");
 	_strcat(error, data_sh->args[0]);
 	_strcat(error, ": not found\n");
 	_strcat(error, "\0");
-	free(str_ver_counter);
+	free(ver_str);
 	return (error);
 }
 
@@ -115,30 +115,30 @@ char *error_not_found(dt_shell *data_sh)
  *
  * Return: Error message
  */
-char *error_exit_shell(dt_shell *data_sh)
+char *error_exit_shell(data_shell *data_sh)
 {
 	int length;
 	char *error;
-	char *str_ver_counter;
+	char *ver_str;
 
-	str_ver_counter = aux_itoa(data_sh->counter);
-	length = _strlen(data_sh->arg_vector[0]) + _strlen(str_ver_counter);
+	ver_str = aux_itoa(data_sh->counter);
+	length = _strlen(data_sh->av[0]) + _strlen(ver_str);
 	length += _strlen(data_sh->args[0]) + _strlen(data_sh->args[1]) + 23;
 	error = malloc(sizeof(char) * (length + 1));
 	if (error == 0)
 	{
-		free(str_ver_counter);
+		free(ver_str);
 		return (NULL);
 	}
-	_strcpy(error, data_sh->arg_vector[0]);
+	_strcpy(error, data_sh->av[0]);
 	_strcat(error, ": ");
-	_strcat(error, str_ver_counter);
+	_strcat(error, ver_str);
 	_strcat(error, ": ");
 	_strcat(error, data_sh->args[0]);
 	_strcat(error, ": Illegal number: ");
 	_strcat(error, data_sh->args[1]);
 	_strcat(error, "\n\0");
-	free(str_ver_counter);
+	free(ver_str);
 
 	return (error);
 }

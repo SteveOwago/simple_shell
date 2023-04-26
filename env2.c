@@ -33,7 +33,7 @@ char *copy_info(char *name, char *value)
  * @data_sh: data structure (environment)
  * Return: no return
  */
-void set_env(char *name, char *value, dt_shell *data_sh)
+void set_env(char *name, char *value, data_shell *data_sh)
 {
 	int i;
 	char *var_env, *name_env;
@@ -64,7 +64,7 @@ void set_env(char *name, char *value, dt_shell *data_sh)
  *
  * Return: 1 on success.
  */
-int _setenv(dt_shell *data_sh)
+int _setenv(data_shell *data_sh)
 {
 
 	if (data_sh->args[1] == NULL || data_sh->args[2] == NULL)
@@ -85,7 +85,7 @@ int _setenv(dt_shell *data_sh)
  *
  * Return: 1 on success.
  */
-int _unsetenv(dt_shell *data_sh)
+int _unsetenv(data_shell *data_sh)
 {
 	char **realloc_environment;
 	char *var_env, *name_env;

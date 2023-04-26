@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * get_signalint - Handle the crtl + c call in prompt
- * @signal: signalnal handler
+ * get_sigint - Handle the crtl + c call in prompt
+ * @sig: Signal handler
  */
-void get_signalint(int signal)
+void get_sigint(int sig)
 {
-	(void)signal;
+	(void)sig;
 	write(STDOUT_FILENO, "\n^-^ ", 5);
 }

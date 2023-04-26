@@ -39,11 +39,11 @@ r_var *add_rvar_node(r_var **head, int lvar, char *val, int lval)
 }
 
 /**
- * r_var_free_list - frees a r_var list
+ * free_rvar_list - frees a r_var list
  * @head: head of the linked list.
  * Return: no return.
  */
-void r_var_free_list(r_var **head)
+void free_rvar_list(r_var **head)
 {
 	r_var *temp;
 	r_var *curr;

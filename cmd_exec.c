@@ -78,7 +78,7 @@ char *_which(char *cmd, char **_environment)
  * @data_sh: data structure
  * Return: 0 if is not an executable, other number if it does
  */
-int is_executable(dt_shell *data_sh)
+int is_executable(data_shell *data_sh)
 {
 	struct stat st;
 	int i;
@@ -124,7 +124,7 @@ int is_executable(dt_shell *data_sh)
  * @data_sh: data structure
  * Return: 1 if there is an error, 0 if not
  */
-int check_error_cmd(char *dir, dt_shell *data_sh)
+int check_error_cmd(char *dir, data_shell *data_sh)
 {
 	if (dir == NULL)
 	{
@@ -160,7 +160,7 @@ int check_error_cmd(char *dir, dt_shell *data_sh)
  * @data_sh: data relevant (args and input)
  * Return: 1 on success.
  */
-int cmd_exec(dt_shell *data_sh)
+int cmd_exec(data_shell *data_sh)
 {
 	pid_t pd;
 	pid_t wpd;
@@ -190,7 +190,7 @@ int cmd_exec(dt_shell *data_sh)
 	}
 	else if (pd < 0)
 	{
-		perror(data_sh->arg_vector[0]);
+		perror(data_sh->av[0]);
 		return (1);
 	}
 	else

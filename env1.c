@@ -1,20 +1,20 @@
 #include "main.h"
 
 /**
- * env_name_compare - compares env variables names
+ * cmp_env_name - compares env variables names
  * with the name passed.
- * @env_nname: name of the environment variable
+ * @nenv: name of the environment variable
  * @name: name passed
  *
  * Return: 0 if are not equal. Another value if they are.
  */
-int env_name_compare(const char *env_nname, const char *name)
+int cmp_env_name(const char *nenv, const char *name)
 {
 	int i;
 
-	for (i = 0; env_nname[i] != '='; i++)
+	for (i = 0; nenv[i] != '='; i++)
 	{
-		if (env_nname[i] != name[i])
+		if (nenv[i] != name[i])
 		{
 			return (0);
 		}
@@ -44,7 +44,7 @@ char *_getenv(const char *name, char **_environment)
 	for (i = 0; _environment[i]; i++)
 	{
 		/* If name and env are equal */
-		mov = env_name_compare(_environment[i], name);
+		mov = cmp_env_name(_environment[i], name);
 		if (mov)
 		{
 			ptr_env = _environment[i];
@@ -61,7 +61,7 @@ char *_getenv(const char *name, char **_environment)
  * @data_sh: data relevant.
  * Return: 1 on success.
  */
-int _env(dt_shell *data_sh)
+int _env(data_shell *data_sh)
 {
 	int i, j;
 
