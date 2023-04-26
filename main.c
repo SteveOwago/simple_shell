@@ -1,73 +1,44 @@
-#include "main.h"
+#include "shell.h"
 
 /**
- * free_data - frees data structure
+ * main - entry point
+ * @arg_count: arg count
+ * @arg_vector: arg vector
  *
- * @data_sh: data structure
- * Return: no return
+ * Return: 0 on success, 1 on error
  */
-void free_data(data_shell *data_sh)
+int main(int arg_count, char **arg_vector)
 {
-	unsigned int i;
+	info_t info[] = { INFO_INIT };
+	int fd = 2;
 
-	for (i = 0; data_sh->_environment[i]; i++)
+	asm ("mov %1, %0\n\t"
+		"add $3, %0"
+		: "=r" (fd)
+		: "r" (fd));
+
+	if (arg_count == 2)
 	{
-		free(data_sh->_environment[i]);
+		fd = open(arg_vector[1], O_RDONLY);
+		if (fd == -1)
+		{
+			if (errno == EACCES)
+				exit(126);
+			if (errno == ENOENT)
+			{
+				_eputs(arg_vector[0]);
+				_eputs(": 0: Can't open ");
+				_eputs(arg_vector[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
+				exit(127);
+			}
+			return (EXIT_FAILURE);
+		}
+		info->readfd = fd;
 	}
-
-	free(data_sh->_environment);
-	free(data_sh->pid);
-}
-
-/**
- * set_data - Initialize data structure
- *
- * @data_sh: data structure
- * @av: argument vector
- * Return: no return
- */
-void set_data(data_shell *data_sh, char **av)
-{
-	unsigned int i;
-
-	data_sh->av = av;
-	data_sh->input = NULL;
-	data_sh->args = NULL;
-	data_sh->status = 0;
-	data_sh->counter = 1;
-
-	for (i = 0; environment[i]; i++)
-		;
-
-	data_sh->_environment = malloc(sizeof(char *) * (i + 1));
-
-	for (i = 0; environment[i]; i++)
-	{
-		data_sh->_environment[i] = _strdup(environment[i]);
-	}
-
-	data_sh->_environment[i] = NULL;
-	data_sh->pid = aux_itoa(getpid());
-}
-
-/**
- * main - Entry point
- *
- * @ac: argument count
- * @av: argument vector
- *
- * Return: 0 on success.
- */
-int main(int ac, char **av)
-{
-	data_shell data_sh;
-	(void) ac;
-
-	signal(SIGINT, get_sigint);
-	set_data(&data_sh, av);
-	shell_loop(&data_sh);
-	free_data(&data_sh);
-	if (data_sh.status < 0)
-		return (255);
-	return (data_sh.status);
+	populate_env_list(info);
+	read_history(info);
+	hsh(info, arg_vector);
+	return (EXIT_SUCCESS);
 }
