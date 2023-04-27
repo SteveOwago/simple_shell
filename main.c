@@ -1,47 +1,46 @@
 #include "shell.h"
+
 /**
- * main - Simple Shell (Hsh)
- * @argc: Argument Count
- * @argv:Argument Value
- * Return: Exit Value By Status
- */
+* main - entry point
+* @arg_count: arg count
+* @arg_vect: arg vector
+*
+* Return: 0 on success, 1 on error
+*/
 
-int main(__attribute__((unused)) int argc, char **argv)
+int main(int arg_count, char **arg_vect)
 {
-	char *line, **toks;
-	int counter = 0, statue = 1, st = 0;
+	info_t info[] = { INFO_INIT };
+	int file_descriptor = 2;
 
-	if (argv[1] != NULL)
-		read_file(argv[1], argv);
-	signal(SIGINT, signal_to_handle);
-	while (statue)
+	asm ("mov %1, %0\n\t"
+	"add $3, %0"
+	: "=r" (file_descriptor)
+	: "r" (file_descriptor));
+	if (arg_count == 2)
 	{
-		counter++;
-		if (isatty(STDIN_FILENO))
-			PRINTER("($) ");
-		line = _getline();
-		if (line[0] == '\0')
+		file_descriptor = open(arg_vect[1], O_RDONLY);
+		if (file_descriptor == -1)
 		{
-			continue;
+			if (errno == EACCES)
+			{
+				fprintf(stderr, "Error: Permission denied to open %s\n",
+				arg_vect[1]);
+				exit(98);
+			}
+			if (errno == ENOENT)
+			{
+				fprintf(stderr, "%s: 0: Can't open %s\n", arg_vect[0],
+				arg_vect[1]);
+				exit(98);
+			}
+			fprintf(stderr, "Error: Failed to open %s\n", arg_vect[1]);
+			return (EXIT_FAILURE);
 		}
-		history(line);
-		toks = parse_cmd(line);
-		if (_strcmp(toks[0], "exit") == 0)
-		{
-			exit_bul(toks, line, argv, counter);
-		}
-		else if (check_builtin(toks) == 0)
-		{
-			st = handle_builtin(toks, st);
-			free_all(toks, line);
-			continue;
-		}
-		else
-		{
-			st = check_cmd(toks, line, counter, argv);
-		}
-		free_all(toks, line);
+		info->readfd = file_descriptor;
 	}
-	return (statue);
+	populate_env_list(info);
+	read_history(info);
+	hsh(info, arg_vect);
+	return (EXIT_SUCCESS);
 }
-

@@ -1,115 +1,82 @@
 #include "shell.h"
 /**
- * _strncpy - copie a string
- * @dest:char
- *  @src:char
- * @n:int
- * Return:char
- */
-char *_strncpy(char *dest, char *src, int n)
+* get_string_length - returns the length of a string
+*
+* @str: the string whose length to check
+*
+* Return: integer length of string
+*/
+int get_string_length(char *str)
 {
-int i;
+	int length = 0;
 
-i = 0;
-	while (i < n && *(src + i))
+	if (!str)
 	{
-	*(dest + i) = *(src + i);
-	i++;
+		printf("Error: string is NULL\n");
+		return (0);
 	}
-	while (i < n)
+	while (*str++)
 	{
-	*(dest + i) = '\0';
-	i++;
+		length++;
 	}
-	return (dest);
-}
-
-/**
- * _strlen - lenght of string
- * @s:char
- * Return:int
- */
-
-int _strlen(char *s)
-{
-	int i;
-
-		for (i = 0; s[i] != '\0'; i++)
-		{
-			continue;
-		}
-return (i);
-}
-
-/**
- * _atoi - convert to a int
- * @s:string
- * Return:int
- */
-int _atoi(char *s)
-{
-int i, j, n, x;
-
-	i = n = 0;
-	x = 1;
-	while ((s[i] < '0' || s[i] > '9') && (s[i] != '\0'))
-	{
-		if (s[i] == '-')
-			x *= -1;
-		i++;
-	}
-	j = i;
-	while ((s[j] >= '0') && (s[j] <= '9'))
-	{
-		n = (n * 10) + x * ((s[j]) - '0');
-		j++;
-	}
-	return (n);
+	return (length);
 }
 /**
- * _puts - print a string
- * @str:pointer char
- * return:void
- */
-void _puts(char *str)
+* compare_strings - performs lexicogarphic comparison of two strangs.
+*
+* @str1: the first strang
+*
+* @str2: the second strang
+*
+* Return: if str1 < str2, positive if str1 > str2, zero if str1 == str2
+*/
+int compare_strings(char *str1, char *str2)
 {
-	int i;
-
-	for (i = 0; str[i] != '\0'; i++)
+	while (*str1 && *str2)
 	{
-		_putchar(str[i]);
+		if (*str1 != *str2)
+			return (*str1 - *str2);
+		str1++;
+		str2++;
 	}
-_putchar('\n');
-return;
+	if (*str1 == *str2)
+		return (0);
+	else
+		return (*str1 < *str2 ? -1 : 1);
 }
-#include "shell.h"
-
 /**
- * _strcmp - Compare Two String
- * @s1:String 1
- * @s2:String 2
- * Return: 0 If Identical Otherwise How Much Diffrent
- */
-int _strcmp(char *s1, char *s2)
+* string_starts_with - checks if needle starts with haystack
+
+* @haystack: string to search
+*
+* @needle: the substring to find
+*
+* Return: address of next char of haystack or NULL
+*/
+char *string_starts_with(const char *haystack, const char *needle)
 {
-int cmp = 0, i, len1, len2;
-len1 = _strlen(s1);
-len2 = _strlen(s2);
-
-	if (s1 == NULL || s2 == NULL)
-		return (1);
-	if (len1 != len2)
-		return (1);
-	for (i = 0; s1[i]; i++)
-	{
-		if (s1[i] != s2[i])
-		{
-			cmp = s1[i] - s2[i];
-			break;
-		}
-		else
-			continue;
-	}
-	return (cmp);
+	while (*needle)
+		if (*needle++ != *haystack++)
+			return (NULL);
+	return ((char *)haystack);
 }
+/**
+* _strcat - concatenates two strings
+*
+* @dest: the destination buffer
+*
+* @src: the source buffer
+*
+* Return: pointer to destination buffer
+*/
+char *strcat(char *dest, char *src)
+{
+	char *ret = dest;
 
+	while (*dest)
+		dest++;
+	while (*src)
+		*dest++ = *src++;
+	*dest = *src;
+	return (ret);
+}
