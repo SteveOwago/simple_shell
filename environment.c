@@ -1,28 +1,45 @@
 #include "shell.h"
 
 /**
- * _myenv - prints the current environment
+ * print_environment - prints the current environment
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  * Return: Always 0
  */
-int _myenv(info_t *info)
+int print_environment(info_t *info)
 {
+	if (info == NULL)
+	{
+		fprintf(stderr, "Error: info is NULL\n");
+		return (1);
+	}
 	print_list_str(info->env);
 	return (0);
 }
 
 /**
- * _getenv - gets the value of an environ variable
+ * get_env_var - gets the value of an environ variable
  * @info: Structure containing potential arguments. Used to maintain
  * @name: env var name
  *
  * Return: the value
  */
-char *_getenv(info_t *info, const char *name)
+char *get_env_var(info_t *info, const char *name)
 {
 	list_t *node = info->env;
 	char *p;
+
+	if (info == NULL)
+	{
+		fprintf(stderr, "Error: info is NULL\n");
+		return (NULL);
+	}
+
+	if (name == NULL)
+	{
+		fprintf(stderr, "Error: name is NULL\n");
+		return (NULL);
+	}
 
 	while (node)
 	{
@@ -35,14 +52,20 @@ char *_getenv(info_t *info, const char *name)
 }
 
 /**
- * _mysetenv - Initialize a new environment variable,
+ * set_env_var - Initialize a new environment variable,
  *             or modify an existing one
  * @info: Structure containing potential arguments. Used to maintain
  *        constant function prototype.
- *  Return: Always 0
+ *  Return: 0 on success, 1 on failure
  */
-int _mysetenv(info_t *info)
+int set_env_var(info_t *info)
 {
+	if (info == NULL)
+	{
+		fprintf(stderr, "Error: info is NULL\n");
+		return (1);
+	}
+
 	if (info->argc != 3)
 	{
 		_eputs("Incorrect number of arguements\n");
@@ -54,14 +77,20 @@ int _mysetenv(info_t *info)
 }
 
 /**
- * _myunsetenv - Remove an environment variable
+ * unset_env_var - Remove an environment variable
  * @info: Structure containing potential arguments. Used to maintain
  *        constant function prototype.
- *  Return: Always 0
+ *  Return: 0 on success, 1 on failure
  */
-int _myunsetenv(info_t *info)
+int unset_env_var(info_t *info)
 {
 	int i;
+
+	if (info == NULL)
+	{
+		fprintf(stderr, "Error: info is NULL\n");
+		return (1);
+	}
 
 	if (info->argc == 1)
 	{
@@ -78,12 +107,18 @@ int _myunsetenv(info_t *info)
  * populate_env_list - populates env linked list
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
- * Return: Always 0
+ * Return: 0 on success, 1 on failure
  */
 int populate_env_list(info_t *info)
 {
 	list_t *node = NULL;
 	size_t i;
+
+	if (info == NULL)
+	{
+		fprintf(stderr, "Error: info is NULL\n");
+		return (1);
+	}
 
 	for (i = 0; environ[i]; i++)
 		add_node_end(&node, environ[i], 0);
